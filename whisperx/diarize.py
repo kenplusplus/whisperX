@@ -10,7 +10,7 @@ from .audio import load_audio, SAMPLE_RATE
 class DiarizationPipeline:
     def __init__(
         self,
-        model_name="pyannote/speaker-diarization-3.1",
+        model_name="pyannote/speaker-diarization-3.0",
         use_auth_token=None,
         device: Optional[Union[str, torch.device]] = "cpu",
     ):
@@ -47,7 +47,7 @@ def assign_word_speakers(diarize_df, transcript_result, fill_nearest=False):
             # sum over speakers
             speaker = dia_tmp.groupby("speaker")["intersection"].sum().sort_values(ascending=False).index[0]
             seg["speaker"] = speaker
-        
+
         # assign speaker to words
         if 'words' in seg:
             for word in seg['words']:
@@ -63,8 +63,8 @@ def assign_word_speakers(diarize_df, transcript_result, fill_nearest=False):
                         # sum over speakers
                         speaker = dia_tmp.groupby("speaker")["intersection"].sum().sort_values(ascending=False).index[0]
                         word["speaker"] = speaker
-        
-    return transcript_result            
+
+    return transcript_result
 
 
 class Segment:
